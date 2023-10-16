@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Criptografia </title>
+    <style>
+        body {
+            background-image: url('turma_da_monica.jpg');
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        #container {
+            background-color: rgba(255, 255, 255, 0.8);
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Cifra de Substituição - Turma da Mônica</h1>
+    
+
+        <form id="cipherForm">
+            <label for="openMessage">Mensagem Aberta:</label>
+            <input type="text" id="openMessage" name="openMessage" required><br><br>
+
+            <label for="encryptedMessage">Mensagem Criptografada:</label>
+            <input type="text" id="encryptedMessage" name="encryptedMessage" required><br><br>
+
+            <button type="button" id="encryptButton">Criptografar</button>
+            <button type="button" id="decryptButton">Descriptografar</button>
+        </form>
+    </div>
+
+    <script>
+        
+        const substitutionMap =
+         {
+            'a': 'z',
+                'b': 'y',
+                'c': 'x',
+                'd': 'w',
+                'e': 'v',
+                'f': 'u',
+                'g': 't',
+                'h': 's',
+                'i': 'r',
+                'j': 'q',
+                'k': 'p',
+                'l': 'o',
+                'm': 'n',
+                'n': 'm',
+                'o': 'l',
+                'p': 'k',
+                'q': 'j',
+                'r': 'i',
+                's': 'h',
+                't': 'g',
+                'u': 'f',
+                'v': 'e',
+                'w': 'd',
+                'x': 'c',
+                'y': 'b',
+                'z': 'a',
+            
+        };
+
+        
+        function encryptMessage(message) {
+            let encryptedMessage = '';
+            for (let i = 0; i < message.length; i++) {
+                const character = message[i].toLowerCase();
+                if (substitutionMap.hasOwnProperty(character)) {
+                    encryptedMessage += substitutionMap[character];
+                } else {
+                    encryptedMessage += message[i];
+                }
+            }
+            return encryptedMessage;
+        }
+
+       
+        function decryptMessage(encryptedMessage) {
+            const reverseMap = {};
+            for (let key in substitutionMap) {
+                if (substitutionMap.hasOwnProperty(key)) {
+                    reverseMap[substitutionMap[key]] = key;
+                }
+            }
+            let decryptedMessage = '';
+            for (let i = 0; i < encryptedMessage.length; i++) {
+                const character = encryptedMessage[i].toLowerCase();
+                if (reverseMap.hasOwnProperty(character)) {
+                    decryptedMessage += reverseMap[character];
+                } else {
+                    decryptedMessage += encryptedMessage[i];
+                }
+            }
+            return decryptedMessage;
+        }
+
+       
+        document.getElementById("encryptButton").addEventListener("click", function() {
+            const openMessage = document.getElementById("openMessage").value;
+            const encryptedMessage = encryptMessage(openMessage);
+            document.getElementById("encryptedMessage").value = encryptedMessage;
+        });
+
+        document.getElementById("decryptButton").addEventListener("click", function() {
+            const encryptedMessage = document.getElementById("encryptedMessage").value;
+            const decryptedMessage = decryptMessage(encryptedMessage);
+            document.getElementById("openMessage").value = decryptedMessage;
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
